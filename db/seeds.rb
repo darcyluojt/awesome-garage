@@ -7,3 +7,21 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require "faker"
+# create owner
+Owner.destroy_all
+10.times do
+  Owner.create!(nickname: Faker::Internet.user[:username])
+end
+
+# create cars and randomly assign owner
+20.times do
+  brand = Faker::Vehicle.make
+  Car.create(
+    brand: brand,
+    model: Faker::Vehicle.model(make_of_model: brand),
+    year: Faker::Vehicle.year,
+    fuel: Faker::Vehicle.fuel_type,
+    owner_id: Owner.all.sample.id
+  )
+end
